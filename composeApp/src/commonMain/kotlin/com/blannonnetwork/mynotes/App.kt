@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.blannonnetwork.mynotes.db.NoteDataBase
 import com.blannonnetwork.mynotes.model.Note
 import com.blannonnetwork.mynotes.notes.ListNotesScreen
 import com.blannonnetwork.mynotes.notes.getRandomColor
@@ -43,10 +44,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun App() {
+fun App(dataBase: NoteDataBase) {
 //    Starting point
     MyNotesTheme{
-        val viewModel = viewModel { HomeViewModel() }
+        val viewModel = viewModel { HomeViewModel(dataBase) }
         val bottomSheetState  = rememberModalBottomSheetState()
         var showBottomSheet by remember { mutableStateOf(false) }
         val coroutine = rememberCoroutineScope()
@@ -67,16 +68,14 @@ fun App() {
                 }
             }
         ){
-            val notes = viewModel.notes.collectAsStateWithLifecycle()
+            val notes = viewModel.notes.collectAsStateWithLifecycle(emptyList())
 
             Column(
                 modifier = Modifier.padding(it)
             ){
                 Text(
                     "Notes",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp),
+                    modifier = Modifier.fillMaxWidth().padding(8.dp),
                     fontSize = 30.sp
                 )
 

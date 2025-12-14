@@ -21,8 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun ListNotesScreen(list: List<Note>){
     LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         items(list){
             NoteItem(note = it)
